@@ -1,0 +1,513 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "sSos7q2_oBGj"
+      },
+      "source": [
+        "## Problem 1"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "NiX8ePp0oBGk"
+      },
+      "source": [
+        "Make a tuple containing natural numbers, the square of which is a multiple of 3, 4, but not a multiple of 8 and not exceeding 12345."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "limit = int(12345**0.5) + 1\n",
+        "my_tuple = tuple(x for x in range(1, limit) if (x**2) % 3 == 0 and (x**2) % 4 == 0 and (x**2) % 8 != 0)\n",
+        "(my_tuple)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "03N2tCwEiGyZ",
+        "outputId": "9014a477-0940-4d12-c5be-cf34961f217c"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(6, 18, 30, 42, 54, 66, 78, 90, 102)"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 73
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "OZBeUyxcoBGk"
+      },
+      "source": [
+        "## Problem 2"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "zIfvg22noBGk"
+      },
+      "source": [
+        "\n",
+        "Write a function that takes a two-dimensional array and a string as input and returns an array rotated 90 degrees counterclockwise if the string 'left' was passed, and clockwise if the string 'right' was passed.\n",
+        "\n",
+        "Example for input: $\\begin{bmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\\\ 7 & 8 & 9 \\end{bmatrix}$.\\\n",
+        "If the string 'left' is passed, the function should return $\\begin{bmatrix} 3 & 6 & 9 \\\\ 2 & 5 & 8 \\\\ 1 & 4 & 7 \\end{bmatrix}$, and if the string 'right' is passed, the function should return $\\begin{bmatrix} 7 & 4 & 1 \\\\ 8 & 5 & 2 \\\\ 9 & 6 & 3 \\end{bmatrix}$."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def rotated_array(arr, str1):\n",
+        "    rows = len(arr)\n",
+        "    cols = len(arr[0])\n",
+        "\n",
+        "    if str1 == 'right':\n",
+        "        rot_arr = [[0 for _ in range(rows)] for _ in range(cols)]\n",
+        "        for i in range(rows):\n",
+        "            for j in range(cols):\n",
+        "                rot_arr[j][rows - 1 - i] = arr[i][j]\n",
+        "\n",
+        "    elif str1 == 'left':\n",
+        "        rot_arr = [[0 for _ in range(rows)] for _ in range(cols)]\n",
+        "        for i in range(rows):\n",
+        "            for j in range(cols):\n",
+        "                rot_arr[cols - 1 - j][i] = arr[i][j]\n",
+        "    return rot_arr"
+      ],
+      "metadata": {
+        "id": "JxZsdwUqmfB5"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Пример\n",
+        "\n",
+        "arr = [[1,2,3], [4,5,6],[7,8,9]]\n",
+        "str1 = 'right'\n",
+        "rotated_array(arr, str1)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "1f9UVg-mp6_m",
+        "outputId": "3d26bf94-bf59-4f12-d9f1-56a62e1b279f"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[[7, 4, 1], [8, 5, 2], [9, 6, 3]]"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 13
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "_dY-PFlCoBGk"
+      },
+      "source": [
+        "## Problem 3"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "3CaIwcm0oBGk"
+      },
+      "source": [
+        "Write a function that takes a string as input and returns a dictionary containing the number of occurrences of each character in the string.\n",
+        "\n",
+        "Example for the string 'hello, world!': {'h': 1, 'e': 1, 'l': 3, 'o': 2, ',': 1, ' ': 1, 'w': 1, 'r': 1, 'd': 1, '!': 1}."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def dict_of_word(str1):\n",
+        "    my_dict = {}\n",
+        "    for letter in str1:\n",
+        "        my_dict[letter] = my_dict.get(letter, 0) + 1\n",
+        "\n",
+        "    return my_dict"
+      ],
+      "metadata": {
+        "id": "zOn5ofg2sCKn"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Пример\n",
+        "from collections import Counter\n",
+        "dict_of_word('hello, world!')"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "5KPs3EgIufED",
+        "outputId": "307a6b95-12f2-4bc3-f06b-6288969cf517"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Counter({'h': 1,\n",
+              "         'e': 1,\n",
+              "         'l': 3,\n",
+              "         'o': 2,\n",
+              "         ',': 1,\n",
+              "         ' ': 1,\n",
+              "         'w': 1,\n",
+              "         'r': 1,\n",
+              "         'd': 1,\n",
+              "         '!': 1})"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 75
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "KBGJ7PeboBGk"
+      },
+      "source": [
+        "## Problem 4"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "XS4Seqa9oBGk"
+      },
+      "source": [
+        "### Implementing a Library Management System\n",
+        "\n",
+        "#### Description\n",
+        "\n",
+        "You are required to design and implement a system for managing books and users in a library. The system should allow for the management of books (adding, deleting, searching by various criteria) and users (registration, deletion, searching), as well as tracking the history of interactions between them (issuing and returning books).\n",
+        "\n",
+        "#### Tasks\n",
+        "\n",
+        "1. **`Book` Class**:\n",
+        "   - Attributes: title, author, year of publication, ISBN, number of copies.\n",
+        "   - Methods: constructor, methods to get information about the book, method to change the number of copies (when issuing and returning books).\n",
+        "\n",
+        "2. **`User` Class**:\n",
+        "   - Attributes: user name, library card number, list of borrowed books.\n",
+        "   - Methods: constructor, methods for user registration, methods for adding and removing books from the borrowed list.\n",
+        "\n",
+        "3. **`Library` Class**:\n",
+        "   - Attributes: list of books, list of users, transaction history (who, when, which book was borrowed and returned).\n",
+        "   - Methods: constructor, methods for adding and deleting books and users, methods for issuing and returning books, searching for books and users by various criteria, method to display the transaction history.\n",
+        "\n",
+        "#### Assignment\n",
+        "\n",
+        "1. Implement the `Book`, `User`, and `Library` classes with the specified attributes and methods.\n",
+        "2. Create several books and users, and add them to the library system.\n",
+        "3. Implement scenarios for issuing books to users and their return.\n",
+        "4. Display the transaction history to show how books were issued and returned.\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from datetime import datetime\n",
+        "\n",
+        "\n",
+        "class Book():\n",
+        "    def __init__(self, title=\"\", author=\"\", publication_year=0, isbn=0, copies_count=0):\n",
+        "        self.title = title\n",
+        "        self.author = author\n",
+        "        self.publication_year = publication_year\n",
+        "        self.isbn = isbn\n",
+        "        self.copies_count = copies_count\n",
+        "\n",
+        "    def get_info(self):\n",
+        "        return {\n",
+        "            \"title\": self.title,\n",
+        "            \"author\": self.author,\n",
+        "            \"publication_year\": self.publication_year,\n",
+        "            \"isbn\": self.isbn,\n",
+        "            \"copies_count\": self.copies_count\n",
+        "        }\n",
+        "\n",
+        "    def lend_book(self):\n",
+        "        if self.copies_count > 0:\n",
+        "            self.copies_count -= 1\n",
+        "            return True\n",
+        "        return False\n",
+        "\n",
+        "    def return_book(self):\n",
+        "        self.copies_count += 1\n",
+        "\n",
+        "\n",
+        "class User():\n",
+        "    def __init__(self, name=\"\", library_card=0, borrowed_books=None):\n",
+        "        if borrowed_books is None:\n",
+        "            borrowed_books = []\n",
+        "        self.name = name\n",
+        "        self.library_card = library_card\n",
+        "        self.borrowed_books = borrowed_books\n",
+        "\n",
+        "    def registration(self, name=\"\", library_card=0):\n",
+        "        self.name = name\n",
+        "        self.library_card = library_card\n",
+        "\n",
+        "    def take_book(self, book):\n",
+        "        self.borrowed_books.append(book)\n",
+        "\n",
+        "    def return_book(self, book):\n",
+        "        self.borrowed_books.remove(book)\n",
+        "\n",
+        "\n",
+        "class Library:\n",
+        "    def __init__(self, books=[], users=[], transactions=[]):\n",
+        "\n",
+        "        self.books = books\n",
+        "        self.users = users\n",
+        "        self.transactions = transactions\n",
+        "\n",
+        "    def add_books(self, book):\n",
+        "        self.books.append(book)\n",
+        "\n",
+        "    def del_books(self, book):\n",
+        "        self.books.remove(book)\n",
+        "\n",
+        "    def add_user(self, user):\n",
+        "        self.users.append(user)\n",
+        "\n",
+        "    def del_user(self, user):\n",
+        "        self.users.remove(user)\n",
+        "\n",
+        "    def issue_book(self, user, book):\n",
+        "        if book in self.books and book.lend_book():\n",
+        "            user.take_book(book)\n",
+        "            self.transactions.append({\n",
+        "                \"who\": user.name,\n",
+        "                \"when\": datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\"),\n",
+        "                \"book\": book.title,\n",
+        "                \"returned\": False\n",
+        "            })\n",
+        "            return True\n",
+        "        return False\n",
+        "\n",
+        "    def return_book(self, user, book):\n",
+        "        if book in user.borrowed_books:\n",
+        "            user.return_book(book)\n",
+        "            book.return_book()\n",
+        "            self.transactions.append({\n",
+        "                \"who\": user.name,\n",
+        "                \"when\": datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\"),\n",
+        "                \"book\": book.title,\n",
+        "                \"returned\": True\n",
+        "            })\n",
+        "            return True\n",
+        "        return False\n",
+        "\n",
+        "    def find_books(self, title=None, author=None, isbn=None):\n",
+        "        results = []\n",
+        "        for book in self.books:\n",
+        "            if (title and book.title == title) or \\\n",
+        "               (author and book.author == author) or \\\n",
+        "               (isbn and book.isbn == isbn):\n",
+        "                results.append(book.get_info())\n",
+        "        return results\n",
+        "\n",
+        "    def find_users(self, name=None, library_card=None):\n",
+        "        results = []\n",
+        "        for user in self.users:\n",
+        "            if (name and user.name == name) or \\\n",
+        "               (library_card and user.library_card == library_card):\n",
+        "                results.append({\"name\": user.name, \"library_card\": user.library_card})\n",
+        "        return results\n",
+        "\n",
+        "    def display_transaction_history(self):\n",
+        "        for transaction in self.transactions:\n",
+        "            print(f\"Who: {transaction['who']} | When: {transaction['when']} | Book: {transaction['book']} | Returned: {transaction['returned']}\")\n"
+      ],
+      "metadata": {
+        "id": "8s_HWDYeyIaZ"
+      },
+      "execution_count": 23,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import time\n",
+        "\n",
+        "book1 = Book(\"1984\", \"Джордж Оруэлл\", 1949, 1234567890, 3)\n",
+        "book2 = Book(\"Над пропастью во ржи\", \"Джером Дэвид Сэлинджер\", 1951, 1234567891, 2)\n",
+        "\n",
+        "user1 = User(\"Alice\", 1)\n",
+        "user2 = User(\"Bob\", 2)\n",
+        "\n",
+        "lib = Library()\n",
+        "lib.add_books(book1)\n",
+        "lib.add_books(book2)\n",
+        "lib.add_user(user1)\n",
+        "lib.add_user(user2)\n",
+        "\n",
+        "lib.issue_book(user1, book1)\n",
+        "lib.issue_book(user2, book2)\n",
+        "lib.return_book(user1, book1)\n",
+        "lib.issue_book(user1, book2)\n",
+        "\n",
+        "lib.display_transaction_history()\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Ycpyh10Ej1X0",
+        "outputId": "ee2b478e-87b7-4c47-ac07-5f8d65a6b2a2"
+      },
+      "execution_count": 24,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Who: Alice | When: 2025-02-15 21:07:08 | Book: 1984 | Returned: False\n",
+            "Who: Bob | When: 2025-02-15 21:07:08 | Book: Над пропастью во ржи | Returned: False\n",
+            "Who: Alice | When: 2025-02-15 21:07:08 | Book: 1984 | Returned: True\n",
+            "Who: Alice | When: 2025-02-15 21:07:08 | Book: Над пропастью во ржи | Returned: False\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "0c8zRbSIoBGl"
+      },
+      "source": [
+        "## Problem 5*"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "8ltdzRmOoBGl"
+      },
+      "source": [
+        "Explain why list `b` changes after the execution of the following code:\n",
+        "\n",
+        "```python\n",
+        "a = [1, 2, 3]\n",
+        "b = a\n",
+        "a[0] = 4\n",
+        "print(b)\n",
+        "```"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "RxgnUfFPoBGl"
+      },
+      "source": [
+        ">b не создаёт новый список, а просто ссылается на тот же объект, что и a. То есть мы меняем конкретную ячейку в памяти, на которую ссылаются a и b.\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "TmXLkc_foBGl"
+      },
+      "source": [
+        "## Problem 6*"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Gn0ibiVCoBGl"
+      },
+      "source": [
+        "Let\n",
+        "$$A = \\sum_{i=1}^{10000} \\frac{1}{i^2},\\quad B=\\sum_{i=10000}^{1} \\frac{1}{i^2}.$$\n",
+        "Calculate the values of $A$ and $B$ and compare them. What do you observe? Explain why this happens. What is the best way to calculate the value of $\\sum\\limits_{i=1}^{10000} \\dfrac{1}{i^2}$?"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "A, B = 0, 0\n",
+        "a, b = [], []\n",
+        "for i in range(1,1_000_000):\n",
+        "    a.append(A)\n",
+        "    A += 1/(i*i)\n",
+        "\n",
+        "for i in range(1_000_000, 0, -1):\n",
+        "    b.append(B)\n",
+        "    B += 1/(i*i)\n",
+        "\n",
+        "print(A,B)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "wavcKJI671Rg",
+        "outputId": "989283c2-763b-4521-e258-f1f2a2eb8089"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "1.64493306684777 1.6449330668487263\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
